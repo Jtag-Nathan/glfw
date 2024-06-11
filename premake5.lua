@@ -1,45 +1,34 @@
 project "GLFW"
     kind "StaticLib"
     language "C"
+	staticruntime "on"
+	
+	targetname "GLFW3"  -- Set the target name to GLFW3
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	files
-	{
+    files {
         "include/GLFW/glfw3.h",
         "include/GLFW/glfw3native.h",
-        "src/glfw_config.h",
-        "src/context.c",
-        "src/init.c",
-        "src/input.c",
-        "src/monitor.c",
-        "src/vulkan.c",
-        "src/window.c"
+		"src/**.h",
+		"src/**.c"
     }
 
-	filter "system:windows"
-        buildoptions { "-std=c11", "-lgdi32" }
+    filter "system:windows"
         systemversion "latest"
-        staticruntime "On"
+        defines { "_GLFW_WIN32" }
 
-        files
-        {
-            "src/win32_init.c",
-            "src/win32_joystick.c",
-            "src/win32_monitor.c",
-            "src/win32_time.c",
-            "src/win32_thread.c",
-            "src/win32_window.c",
-            "src/wgl_context.c",
-            "src/egl_context.c",
-            "src/osmesa_context.c"
-        }
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "on"
 
-		defines 
-		{ 
-            "_GLFW_WIN32",
-            "_CRT_SECURE_NO_WARNINGS"
-		}
+    filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+	filter { "system:windows", "configurations:Debug" }
+        buildoptions "/MTd"
+		
     filter { "system:windows", "configurations:Release" }
         buildoptions "/MT"
