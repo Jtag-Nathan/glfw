@@ -1,4 +1,4 @@
-project "GLFW"
+project "GLFW3"
     kind "StaticLib"
     language "C"
 	staticruntime "on"
