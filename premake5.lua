@@ -2,6 +2,7 @@ project "GLFW3"
     kind "StaticLib"
     language "C"
 	staticruntime "on"
+	architecture "x86_64"
 	
 	targetname "GLFW3"  -- Set the target name to GLFW3
 
